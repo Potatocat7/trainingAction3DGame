@@ -15,7 +15,7 @@ public abstract class MobStatus : MonoBehaviour
     [SerializeField] private float lifeMax = 10;
     protected Animator _animator;
     protected StateEnum _state = StateEnum.Normal;
-    private float _life;
+    [SerializeField] private float _life;
     protected virtual void OnDie()
     {
 

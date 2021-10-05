@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
 [RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(PlayerStatus))]
+[RequireComponent(typeof(MobAttack))]
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Animator animator;
@@ -12,6 +14,8 @@ public class PlayerController : MonoBehaviour
     private CharacterController _characterController;
     private Transform _transform;
     private Vector3 _moveVelocity;
+    private PlayerStatus _status;
+    private MobAttack _attack;
 
     private bool IsGrounded
     {
@@ -28,6 +32,8 @@ public class PlayerController : MonoBehaviour
     {
         _characterController = GetComponent<CharacterController>();
         _transform = transform;
+        _status = GetComponent<PlayerStatus>();
+        _attack = GetComponent<MobAttack>();
     }
 
     // Update is called once per frame
@@ -35,9 +41,24 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetFloat("MoveSpeed", new Vector3(_moveVelocity.x, 0, _moveVelocity.z).magnitude);
         Debug.Log(IsGrounded ? "ínè„Ç…Ç¢Ç‹Ç∑" : "ãÛíÜÇ≈Ç∑");
-        _moveVelocity.x = CrossPlatformInputManager.GetAxis("Horizontal") * moveSpeed;
-        _moveVelocity.z = CrossPlatformInputManager.GetAxis("Vertical") * moveSpeed;
-        _transform.LookAt(_transform.position + new Vector3(_moveVelocity.x, 0, _moveVelocity.z));
+        //_moveVelocity.x = CrossPlatformInputManager.GetAxis("Horizontal") * moveSpeed;
+        //_moveVelocity.z = CrossPlatformInputManager.GetAxis("Vertical") * moveSpeed;
+        //_transform.LookAt(_transform.position + new Vector3(_moveVelocity.x, 0, _moveVelocity.z));
+        if (CrossPlatformInputManager.GetButtonDown("Fire1"))
+        {
+            _attack.AttackIfPossible();
+        }
+        if (_status.IsMovable)
+        {
+            _moveVelocity.x = CrossPlatformInputManager.GetAxis("Horizontal") * moveSpeed;
+            _moveVelocity.z = CrossPlatformInputManager.GetAxis("Vertical") * moveSpeed;
+            _transform.LookAt(_transform.position + new Vector3(_moveVelocity.x, 0, _moveVelocity.z));
+        }
+        else
+        {
+            _moveVelocity.x = 0;
+            _moveVelocity.z = 0;
+        }
         if (IsGrounded)
         {
             if (Input.GetButtonDown("Jump"))
