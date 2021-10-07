@@ -16,7 +16,7 @@ public class Spawner : MonoBehaviour
     {
         while (true)
         {
-            var distanceVector = new Vector3(5, 0);
+            var distanceVector = new Vector3(10, 0);
             var spawnPositionFromPlayer = Quaternion.Euler(0, Random.Range(0, 360f), 0) * distanceVector;
             var spawnPosition = playerStatus.transform.position + spawnPositionFromPlayer;
             NavMeshHit navMeshHit;

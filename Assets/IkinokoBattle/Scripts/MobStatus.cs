@@ -34,6 +34,7 @@ public abstract class MobStatus : MonoBehaviour
     public void GoToAttackStateIfProssible()
     {
         //if (!IsAttackable) return;
+        if (_state == StateEnum.Die) return;
 
         _state = StateEnum.Attack;
         _animator.SetTrigger("Attack");
