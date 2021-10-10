@@ -18,7 +18,7 @@ public abstract class MobStatus : MonoBehaviour
     [SerializeField] private float _life;
     protected virtual void OnDie()
     {
-
+        LifeGaugeContainer.Instance.Remove(this);
     }
     //ダメージ計算
     public void Damage(int damage)
@@ -49,6 +49,7 @@ public abstract class MobStatus : MonoBehaviour
     {
         _life = lifeMax;
         _animator = GetComponentInChildren<Animator>();
+        LifeGaugeContainer.Instance.Add(this);
     }
     protected virtual void Update()
     {
