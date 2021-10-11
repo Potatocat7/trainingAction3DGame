@@ -7,6 +7,7 @@ public class MobAttack : MonoBehaviour
 {
     [SerializeField] private float attackCooldown = 0.5f;
     [SerializeField] private Collider attackCollider;
+    [SerializeField] private AudioSource swingSound;
 
     private MobStatus _status;
     // Start is called before the first frame update
@@ -27,6 +28,11 @@ public class MobAttack : MonoBehaviour
     public void OnAttackStart()
     {
         attackCollider.enabled = true;
+        if (swingSound != null)
+        {
+            swingSound.pitch = Random.Range(0.7f, 1.3f);
+            swingSound.Play();
+        }
     }
     public void OnHitAttack(Collider collider)
     {
